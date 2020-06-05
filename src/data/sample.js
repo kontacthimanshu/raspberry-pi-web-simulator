@@ -3,12 +3,12 @@
 */
 const wpi = require('wiring-pi');
 const BME280 = require('bme280-sensor');
-
+ 
 const BME280_OPTION = {
   i2cBusNo: 1, // defaults to 1
   i2cAddress: BME280.BME280_DEFAULT_I2C_ADDRESS() // defaults to 0x77
 };
-
+const hostUrl = '[Your Mosquitto Server host name]';
 const LEDPin = 4;
 
 var sendingMessage = false;
@@ -40,7 +40,7 @@ sensor.init()
   });
 
 // Create a client instance
-var client = new window.Paho.MQTT.Client("localhost", Number("1883"), "KubeEdgeDemoClient");
+var client = new window.Paho.MQTT.Client(hostUrl, Number("1883"), "KubeEdgeDemoClient");
 
 // set callback handlers
 client.onConnectionLost = onConnectionLost;
