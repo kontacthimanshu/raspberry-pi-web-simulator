@@ -1,21 +1,9 @@
-import { Client, Message } from 'azure-iot-device'
 import { traceEvent } from './telemetry.js';
 import Protocol from './mqtt.js';
 import wpi from './wiring-pi.js';
 import codeFactory from '../data/codeFactory.js';
 import BME280 from './bme280.js';
 
-class ClientWrapper extends Client {
-    constructor(transport,connStr,blobUploadClient) {
-        window.azure_iot_device_client = super(transport,connStr,blobUploadClient);
-        return window.azure_iot_device_client;
-    }
-
-    static fromConnectionString(connStr,transport) {
-        window.azure_iot_device_client = super.fromConnectionString(connStr,transport);
-        return window.azure_iot_device_client;
-    }
-}
 class Sample {
     constructor() {
         this.runningFunction = null;
@@ -112,8 +100,6 @@ class Sample {
             this.runningFunction = new Function('replaces' + prefix, src);
             this.runningFunction({
                 wpi: wpi,
-                Client: ClientWrapper,
-                Message: Message,
                 Protocol: Protocol,
                 BME280: BME280,
                 msgCb: option.onMessage,

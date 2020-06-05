@@ -47,6 +47,12 @@ class Index extends Component {
       let needUpdateUrl = false;
       let useDefault = true;
       let lang;
+      const script = document.createElement("script");
+      script.src = "./libs/paho-mqtt-min.js";
+      script.async = true;
+      script.onload = () => this.scriptLoaded();
+
+      document.body.appendChild(script);
       if (this.props.location && this.props.location.query && this.props.location.query.lang) {
           useDefault = false;
           lang = this.props.location.query.lang;
