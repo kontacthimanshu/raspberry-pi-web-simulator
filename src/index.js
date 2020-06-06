@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Banner from './component/banner/banner';
-import Toolbar from './component/toolbar/toolbar';
 import Display from './component/display/display';
 import HelpOverlay from './component/helpOverlay/helpOverlay';
 import Localization from './localization/localization';
-import { traceEvent } from './lib/telemetry.js';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 import ErrorMap from './data/errorMap';
-import { Router, Route, Link, browserHistory } from 'react-router';
+import { Router, Route, browserHistory } from 'react-router';
 
 import Sample from './lib/sample.js';
-import { tracePageView,tracePageViewAI } from './lib/telemetry.js';
 
 class Index extends Component {
   constructor(props) {
@@ -31,7 +28,6 @@ class Index extends Component {
     if (typeof(Storage) !== "undefined") {
         var disableHelp = localStorage.getItem("disable-help");
         if(disableHelp == null) {
-            traceEvent('help-open-first');
             this.state.showHelp = true;
             localStorage.setItem("disable-help","true");
         }
@@ -47,12 +43,7 @@ class Index extends Component {
       let needUpdateUrl = false;
       let useDefault = true;
       let lang;
-      const script = document.createElement("script");
-      script.src = "./libs/paho-mqtt-min.js";
-      script.async = true;
-      script.onload = () => this.scriptLoaded();
 
-      document.body.appendChild(script);
       if (this.props.location && this.props.location.query && this.props.location.query.lang) {
           useDefault = false;
           lang = this.props.location.query.lang;
@@ -78,8 +69,6 @@ class Index extends Component {
               browserHistory.push(location);
           }
       }
-      tracePageView();
-      tracePageViewAI();
   }
 
 
@@ -161,7 +150,7 @@ class Index extends Component {
       }
       setTimeout(() => {
           let aTags = document.getElementsByTagName("span");
-          let searchText = "'[Your IoT hub device connection string]'";
+          let searchText = "'[Your Mosquitto Server Host Name]'";
           let found;
           for (var i = 0; i < aTags.length; i++) {
               if (aTags[i].textContent == searchText) {
@@ -176,9 +165,9 @@ class Index extends Component {
           bubble.id = 'bubble1';
           let tri = document.createElement("span");
           tri.id = 'bubble2';
-          bubble.innerText = "Replace the placeholder with the Azure IoT hub";
+          bubble.innerText = "Replace the placeholder with Mosquitto Server Host Name";
           let cs = document.createElement("div");
-          cs.innerText = "device connection string";
+          cs.innerText = "mosquitto server host name";
           cs.style.cssText = `
         font-weight: bold;
       `;

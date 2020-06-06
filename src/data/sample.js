@@ -1,5 +1,5 @@
 /*
-* IoT Hub Raspberry Pi NodeJS - Microsoft Sample Code - Copyright (c) 2017 - Licensed MIT
+* Mosquitto Server Raspberry Pi NodeJS - Licensed MIT
 */
 const wpi = require('wiring-pi');
 const BME280 = require('bme280-sensor');
@@ -40,7 +40,7 @@ sensor.init()
   });
 
 // Create a client instance
-var client = new window.Paho.MQTT.Client(hostUrl, Number("1883"), "KubeEdgeDemoClient");
+var client = new window.Paho.Client(hostUrl, Number("1883"), "MosquittoDemoClient");
 
 // set callback handlers
 client.onConnectionLost = onConnectionLost;
@@ -55,7 +55,7 @@ function onConnect() {
     // Once a connection has been made, make a subscription and send a message.
     console.log("onConnect");
     client.subscribe("World");
-    var message = new window.Paho.MQTT.Message("Hello");
+    var message = new window.Paho.Message("Hello");
     message.destinationName = "World";
     client.send(message);
 }

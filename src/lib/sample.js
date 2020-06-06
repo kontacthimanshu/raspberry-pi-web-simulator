@@ -1,4 +1,3 @@
-import { traceEvent } from './telemetry.js';
 import Protocol from './mqtt.js';
 import wpi from './wiring-pi.js';
 import codeFactory from '../data/codeFactory.js';
@@ -95,7 +94,6 @@ class Sample {
         ];
         wpi.setFunc(option.ledSwitch);
         try {
-            traceEvent('run-sample');
             var src = codeFactory.getRunCode('index', replaces, prefix);
             this.runningFunction = new Function('replaces' + prefix, src);
             this.runningFunction({
@@ -109,7 +107,6 @@ class Sample {
             //     option.onFinish();
             // }
         } catch (err) {
-            traceEvent('run-error', { error: err });
             option.onError(err.message || JSON.stringify(err));
             option.onFinish();
         }
